@@ -31,9 +31,22 @@ repositories {
 
 dependencies {
     api("org.springframework.boot:spring-boot-starter-actuator")
-    api("org.springframework.boot:spring-boot-starter-web")
+    api("org.springframework.boot:spring-boot-starter-web") {
+        // remove jackson
+        exclude("org.springframework.book", "spring-boot-starter-json")
+    }
     api("org.springframework.boot:spring-boot-starter-websocket")
     api("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3")
+    // https://mvnrepository.com/artifact/com.alibaba.fastjson2/fastjson2
+    implementation("com.alibaba.fastjson2:fastjson2:2.0.46")
+    // https://mvnrepository.com/artifact/com.alibaba.fastjson2/fastjson2-extension
+    implementation("com.alibaba.fastjson2:fastjson2-extension:2.0.46")
+    // https://mvnrepository.com/artifact/com.alibaba.fastjson2/fastjson2-extension-spring6
+    implementation("com.alibaba.fastjson2:fastjson2-extension-spring6:2.0.46")
+    // https://mvnrepository.com/artifact/com.alibaba/druid-spring-boot-starter
+    implementation("com.alibaba:druid-spring-boot-starter:1.2.23")
+    // https://mvnrepository.com/artifact/com.auth0/java-jwt
+    implementation("com.auth0:java-jwt:4.4.0")
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("com.mysql:mysql-connector-j")
     annotationProcessor("org.projectlombok:lombok")
