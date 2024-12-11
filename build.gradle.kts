@@ -2,6 +2,7 @@ plugins {
     id("java-library")
     id("org.springframework.boot") version "3.3.5"
     id("io.spring.dependency-management") version "1.1.6"
+    id("maven-publish")
 }
 
 group = "org.mmga"
@@ -57,4 +58,53 @@ dependencies {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            from(components["java"])
+
+            groupId = "org.mmga"
+            artifactId = "make-minecraft-great-again-spring-boot-starter"
+            version = version
+            pom {
+                name.set("MakeMinecraftGreatAgainSpringBootStarter")
+                description.set("A Spring Boot Starter for mmga team.")
+
+                licenses {
+                    license {
+                        name.set("The MIT License")
+                        url.set("https://opensource.org/licenses/MIT")
+                    }
+                }
+
+                developers {
+                    developer {
+                        id.set("wzp")
+                        name.set("wzp")
+                        email.set("minecraftwzpmc@gmail.com")
+                    }
+                }
+
+                scm {
+                    connection.set("scm:git:https://wzpmc.cn:3000/MakeMinecraftGreatAgainTeam/MakeMinecraftGreatAgainSpringBootStarter.git")
+                    developerConnection.set("scm:git:https://wzpmc.cn:3000/MakeMinecraftGreatAgainTeam/MakeMinecraftGreatAgainSpringBootStarter.git")
+                    url.set("https://wzpmc.cn:3000/MakeMinecraftGreatAgainTeam/MakeMinecraftGreatAgainSpringBootStarter")
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            val releasesRepoUrl = uri("https://wzpmc.cn:90/repository/maven-releases")
+            val snapshotsRepoUrl = uri("https://wzpmc.cn:90/repository/maven-snapshots")
+            url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
+
+            credentials {
+                username = project.findProperty("repo.user") as String? ?: ""
+                password = project.findProperty("repo.password") as String? ?: ""
+            }
+        }
+    }
 }
