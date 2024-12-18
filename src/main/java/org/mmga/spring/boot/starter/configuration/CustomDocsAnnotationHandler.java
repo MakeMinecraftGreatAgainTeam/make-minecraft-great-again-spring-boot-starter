@@ -4,6 +4,7 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.mmga.spring.boot.starter.annotation.Address;
+import org.mmga.spring.boot.starter.annotation.AuthMapping;
 import org.springdoc.core.customizers.OperationCustomizer;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -51,6 +52,9 @@ public class CustomDocsAnnotationHandler implements OperationCustomizer {
         }
         if (addressRequired) {
             operation.description("此接口将会收集用户IP数据！\n" + Objects.requireNonNullElse(operation.getDescription(), ""));
+        }
+        if (handlerMethod.hasMethodAnnotation(AuthMapping.class)) {
+            operation.description("此接口为验证接口（请求头中会带有Add-Authorization字段作为登录/注册返回的token）\n" + Objects.requireNonNullElse(operation.getDescription(), ""));
         }
         return operation;
     }
