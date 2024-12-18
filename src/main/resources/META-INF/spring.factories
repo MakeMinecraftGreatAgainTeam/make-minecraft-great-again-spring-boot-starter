@@ -6,4 +6,5 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
     org.mmga.spring.boot.starter.configuration.DefaultConfiguration,\
     org.mmga.spring.boot.starter.configuration.FastJsonConfiguration,\
     org.mmga.spring.boot.starter.configuration.DocsConfiguration,\
-    org.mmga.spring.boot.starter.configuration.GlobalExceptionHandler
+    org.mmga.spring.boot.starter.configuration.GlobalExceptionHandler,\
+    org.mmga.spring.boot.starter.aspect.AuthMappingHandler

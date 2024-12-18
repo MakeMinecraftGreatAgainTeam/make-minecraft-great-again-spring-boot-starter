@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "org.mmga"
-version = "0.0.3"
+version = "0.0.4"
 
 java {
     toolchain {
@@ -50,9 +50,12 @@ dependencies {
     api("com.auth0:java-jwt:4.4.0")
     api("org.springdoc:springdoc-openapi-starter-webmvc-api:2.7.0")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0")
+    api("org.springframework.boot:spring-boot-starter-aop")
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("com.mysql:mysql-connector-j")
     annotationProcessor("org.projectlombok:lombok")
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+    annotationProcessor("org.springframework.boot:spring-boot-autoconfigure-processor")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")

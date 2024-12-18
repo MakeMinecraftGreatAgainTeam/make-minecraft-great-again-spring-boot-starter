@@ -5,37 +5,20 @@ import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.mmga.spring.boot.starter.componet.JwtUtils;
 import org.mmga.spring.boot.starter.properties.AuthorizationProperties;
-import org.mmga.spring.boot.starter.utils.RandomUtils;
 
 import java.util.Calendar;
 import java.util.Optional;
 
 @Slf4j
+@RequiredArgsConstructor
 public class JwtUtilsImpl implements JwtUtils {
     private final Algorithm hmacKey;
-    private final RandomUtils randomUtils;
     private final AuthorizationProperties properties;
 
-    private String generatorHmacKey() {
-        return this.randomUtils.generatorRandomString(16);
-    }
-
-    public JwtUtilsImpl(AuthorizationProperties properties, RandomUtils randomUtils) {
-        this.properties = properties;
-        this.randomUtils = randomUtils;
-        String hmacKey = properties.getHmacKey();
-        String key;
-        if ("RANDOM".equalsIgnoreCase(hmacKey)) {
-            key = this.generatorHmacKey();
-            log.info("Using Random Hmac Key: {}", key);
-        } else {
-            key = hmacKey;
-        }
-        this.hmacKey = Algorithm.HMAC512(key);
-    }
 
     public String createToken(long uid) {
         Calendar instance = Calendar.getInstance();

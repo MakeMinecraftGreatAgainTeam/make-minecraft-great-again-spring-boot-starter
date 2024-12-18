@@ -140,4 +140,8 @@ public class Result<T> {
     public void writeToOutputStream(OutputStream stream) throws IOException {
         stream.write(JSON.toJSONString(this).getBytes(StandardCharsets.UTF_8));
     }
+
+    public boolean isOK() {
+        return 200 <= this.status && this.status < 300;
+    }
 }
