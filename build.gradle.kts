@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "org.mmga"
-version = "0.0.4"
+version = "0.0.5-SNAPSHOT"
 
 java {
     toolchain {
