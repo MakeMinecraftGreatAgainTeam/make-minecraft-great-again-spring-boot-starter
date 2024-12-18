@@ -22,6 +22,9 @@ public class CustomDocsAnnotationHandler implements OperationCustomizer {
 
     @Override
     public Operation customize(Operation operation, HandlerMethod handlerMethod) {
+        if (handlerMethod.hasMethodAnnotation(AuthMapping.class)) {
+            operation.description("此接口为验证接口（请求头中会带有Add-Authorization字段作为登录/注册返回的token）\n" + Objects.requireNonNullElse(operation.getDescription(), ""));
+        }
         boolean authRequired = handlerMethod.hasMethodAnnotation(authAnnotation);
         boolean addressRequired = false;
         List<Parameter> parameters = operation.getParameters();
@@ -52,9 +55,6 @@ public class CustomDocsAnnotationHandler implements OperationCustomizer {
         }
         if (addressRequired) {
             operation.description("此接口将会收集用户IP数据！\n" + Objects.requireNonNullElse(operation.getDescription(), ""));
-        }
-        if (handlerMethod.hasMethodAnnotation(AuthMapping.class)) {
-            operation.description("此接口为验证接口（请求头中会带有Add-Authorization字段作为登录/注册返回的token）\n" + Objects.requireNonNullElse(operation.getDescription(), ""));
         }
         return operation;
     }
