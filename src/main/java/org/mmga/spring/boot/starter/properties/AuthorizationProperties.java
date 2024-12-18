@@ -6,8 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "mmga.auth")
 @Data
-public class AuthorizationConfigurationProperties {
+public class AuthorizationProperties {
     private String hmacKey = "RANDOM";
-    private Env env = Env.DEV;
     private int tokenLifeTimeHour = 24 * 5;
 }

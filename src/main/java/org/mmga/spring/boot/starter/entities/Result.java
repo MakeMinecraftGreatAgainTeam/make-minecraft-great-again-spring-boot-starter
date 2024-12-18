@@ -2,6 +2,7 @@ package org.mmga.spring.boot.starter.entities;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.annotation.JSONCompiled;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Data;
@@ -15,22 +16,27 @@ import java.nio.charset.StandardCharsets;
 @Slf4j
 @Data
 @JSONCompiled
+@Schema(name = "响应体")
 public class Result<T> {
     /**
      * 请求的响应码
      */
+    @Schema(name = "状态码", description = "与HTTP响应体类似，但可能不同")
     private int status;
     /**
      * 请求的响应信息
      */
+    @Schema(name = "响应消息")
     private String msg;
     /**
      * 请求的响应数据
      */
+    @Schema(name = "数据")
     private T data;
     /**
      * 请求生成的时间戳
      */
+    @Schema(name = "请求生成的时间戳")
     private long timestamp;
 
     protected Result() {

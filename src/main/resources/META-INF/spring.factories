@@ -1,0 +1,9 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    org.mmga.spring.boot.starter.autoconfigure.MainAutoConfigure,\
+    org.mmga.spring.boot.starter.configuration.AddressConfiguration,\
+    org.mmga.spring.boot.starter.configuration.AuthorizationConfiguration,\
+    org.mmga.spring.boot.starter.configuration.CorsConfiguration,\
+    org.mmga.spring.boot.starter.configuration.DefaultConfiguration,\
+    org.mmga.spring.boot.starter.configuration.FastJsonConfiguration,\
+    org.mmga.spring.boot.starter.configuration.DocsConfiguration,\
+    org.mmga.spring.boot.starter.configuration.GlobalExceptionHandler

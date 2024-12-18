@@ -4,14 +4,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.mmga.spring.boot.starter.componet.AuthorizationHandler;
+import org.mmga.spring.boot.starter.entities.Result;
 import org.mmga.spring.boot.starter.exception.AuthorizationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.lang.annotation.Annotation;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -26,13 +28,12 @@ public class AuthorizationHandlerInterceptor implements HandlerInterceptor {
                 return true;
             }
             Annotation annotation = method.getMethodAnnotation(authAnnotation);
-            return this.handler.auth(request, annotation).isPresent();
+            Optional<?> auth = this.handler.auth(request, annotation);
+            if (auth.isEmpty()) {
+                throw new AuthorizationException(Result.failed(HttpStatus.UNAUTHORIZED, "缺少token"));
+            }
+            return true;
         }
         return true;
-    }
-
-    @Override
-    public void postHandle(@NonNull HttpServletRequest request,@NonNull HttpServletResponse response,@NonNull Object handler, ModelAndView modelAndView) {
-        System.out.println(modelAndView);
     }
 }

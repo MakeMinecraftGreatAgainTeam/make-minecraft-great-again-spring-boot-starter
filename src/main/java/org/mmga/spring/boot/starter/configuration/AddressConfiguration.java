@@ -12,11 +12,10 @@ import java.util.List;
 @Configuration
 @RequiredArgsConstructor
 public class AddressConfiguration implements WebMvcConfigurer {
-    private final AddressArgumentResolver addressArgumentResolver;
 
     @Override
     public void addArgumentResolvers(@NonNull List<HandlerMethodArgumentResolver> resolvers) {
         WebMvcConfigurer.super.addArgumentResolvers(resolvers);
-        resolvers.add(addressArgumentResolver);
+        resolvers.add(new AddressArgumentResolver());
     }
 }

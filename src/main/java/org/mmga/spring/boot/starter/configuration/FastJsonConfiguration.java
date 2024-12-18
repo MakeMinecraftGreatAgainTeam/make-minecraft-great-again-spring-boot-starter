@@ -4,8 +4,9 @@ import com.alibaba.fastjson2.JSONWriter;
 import com.alibaba.fastjson2.support.config.FastJsonConfig;
 import com.alibaba.fastjson2.support.spring6.http.converter.FastJsonHttpMessageConverter;
 import lombok.RequiredArgsConstructor;
-import org.mmga.spring.boot.starter.properties.AuthorizationConfigurationProperties;
 import org.mmga.spring.boot.starter.properties.Env;
+import org.mmga.spring.boot.starter.properties.MainProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -18,8 +19,9 @@ import java.util.List;
 
 @Configuration
 @RequiredArgsConstructor
+@EnableConfigurationProperties({MainProperties.class})
 public class FastJsonConfiguration implements WebMvcConfigurer {
-    private final AuthorizationConfigurationProperties properties;
+    private final MainProperties properties;
 
     @Override
     public void configureMessageConverters(@NonNull List<HttpMessageConverter<?>> converters) {

@@ -7,27 +7,23 @@ import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.extern.slf4j.Slf4j;
 import org.mmga.spring.boot.starter.componet.JwtUtils;
-import org.mmga.spring.boot.starter.properties.AuthorizationConfigurationProperties;
+import org.mmga.spring.boot.starter.properties.AuthorizationProperties;
 import org.mmga.spring.boot.starter.utils.RandomUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.Calendar;
 import java.util.Optional;
 
-@Component
 @Slf4j
 public class JwtUtilsImpl implements JwtUtils {
     private final Algorithm hmacKey;
     private final RandomUtils randomUtils;
-    private final AuthorizationConfigurationProperties properties;
+    private final AuthorizationProperties properties;
 
     private String generatorHmacKey() {
         return this.randomUtils.generatorRandomString(16);
     }
 
-    @Autowired
-    public JwtUtilsImpl(AuthorizationConfigurationProperties properties, RandomUtils randomUtils) {
+    public JwtUtilsImpl(AuthorizationProperties properties, RandomUtils randomUtils) {
         this.properties = properties;
         this.randomUtils = randomUtils;
         String hmacKey = properties.getHmacKey();
