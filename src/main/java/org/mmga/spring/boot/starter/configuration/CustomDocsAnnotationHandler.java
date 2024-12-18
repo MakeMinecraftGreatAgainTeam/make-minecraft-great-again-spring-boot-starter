@@ -47,10 +47,10 @@ public class CustomDocsAnnotationHandler implements OperationCustomizer {
         operation.setParameters(newParams);
         if (authRequired) {
             operation.addExtension("x-auth-required", true);
-            operation.description("此接口需要登陆！<br/>" + Objects.requireNonNullElse(operation.getDescription(), ""));
+            operation.description("此接口需要登陆！\n" + Objects.requireNonNullElse(operation.getDescription(), ""));
         }
         if (addressRequired) {
-            operation.description("此接口将会收集用户IP数据<br/>" + Objects.requireNonNullElse(operation.getDescription(), ""));
+            operation.description("此接口将会收集用户IP数据！\n" + Objects.requireNonNullElse(operation.getDescription(), ""));
         }
         return operation;
     }
