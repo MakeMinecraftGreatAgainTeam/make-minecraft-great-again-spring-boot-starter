@@ -12,6 +12,7 @@ import org.springframework.web.method.HandlerMethod;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
@@ -20,9 +21,8 @@ public class CustomDocsAnnotationHandler implements OperationCustomizer {
 
     @Override
     public Operation customize(Operation operation, HandlerMethod handlerMethod) {
-        if (handlerMethod.hasMethodAnnotation(authAnnotation)) {
-            operation.addExtension("x-auth-required", true);
-        }
+        boolean authRequired = handlerMethod.hasMethodAnnotation(authAnnotation);
+        boolean addressRequired = false;
         List<Parameter> parameters = operation.getParameters();
         if (parameters == null) {
             return operation;
@@ -31,11 +31,12 @@ public class CustomDocsAnnotationHandler implements OperationCustomizer {
         for (MethodParameter methodParameter : handlerMethod.getMethodParameters()) {
             String parameterName = methodParameter.getParameter().getName();
             if (methodParameter.hasParameterAnnotation(authAnnotation)) {
-                operation.addExtension("x-auth-required", true);
+                authRequired = true;
                 parameterNamesRemove.add(parameterName);
             }
             if (methodParameter.hasParameterAnnotation(Address.class)) {
                 parameterNamesRemove.add(parameterName);
+                addressRequired = true;
             }
         }
         List<Parameter> newParams = new ArrayList<>();
@@ -44,6 +45,13 @@ public class CustomDocsAnnotationHandler implements OperationCustomizer {
             newParams.add(parameter);
         }
         operation.setParameters(newParams);
+        if (authRequired) {
+            operation.addExtension("x-auth-required", true);
+            operation.description("此接口需要登陆！<br/>" + Objects.requireNonNullElse(operation.getDescription(), ""));
+        }
+        if (addressRequired) {
+            operation.description("此接口将会收集用户IP数据<br/>" + Objects.requireNonNullElse(operation.getDescription(), ""));
+        }
         return operation;
     }
 }
