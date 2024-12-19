@@ -21,22 +21,22 @@ public class Result<T> {
     /**
      * 请求的响应码
      */
-    @Schema(name = "状态码", description = "与HTTP响应体类似，但可能不同")
+    @Schema(description = "状态码（与HTTP响应状态码类似，但可能不同）")
     private int status;
     /**
      * 请求的响应信息
      */
-    @Schema(name = "响应消息")
+    @Schema(description = "响应消息")
     private String msg;
     /**
      * 请求的响应数据
      */
-    @Schema(name = "数据")
+    @Schema(description = "数据")
     private T data;
     /**
      * 请求生成的时间戳
      */
-    @Schema(name = "请求生成的时间戳")
+    @Schema(description = "请求生成的时间戳")
     private long timestamp;
 
     protected Result() {
