@@ -1,6 +1,7 @@
 package org.mmga.spring.boot.starter.utils;
 
 import lombok.SneakyThrows;
+import org.mmga.spring.boot.starter.annotation.VoIgnore;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Constructor;
@@ -32,6 +33,7 @@ public class VoUtils {
         for (Method declaredMethod : declaredMethods) {
             String name = declaredMethod.getName();
             if (name.startsWith("set")) {
+                if (declaredMethod.getAnnotation(VoIgnore.class) != null) continue;
                 String attrName = name.replaceFirst("set", "");
                 declaredMethod.setAccessible(true);
                 setterMap.put(attrName, declaredMethod);
@@ -39,12 +41,15 @@ public class VoUtils {
         }
         Field[] declaredFields = aClass.getDeclaredFields();
         for (Field declaredField : declaredFields) {
+            if (declaredField.getAnnotation(VoIgnore.class) != null) continue;
             declaredField.setAccessible(true);
             fieldMap.put(declaredField.getName(), declaredField);
         }
         Class<?> voClass = vo.getClass();
-        Field[] fields = voClass.getFields();
+        Field[] fields = voClass.getDeclaredFields();
         for (Field field : fields) {
+            field.setAccessible(true);
+            if (field.getAnnotation(VoIgnore.class) != null) continue;
             String fieldName = field.getName();
             Method method = setterMap.get(fieldName);
             if (method != null) {
