@@ -29,7 +29,7 @@ public class JwtUtilsImpl implements JwtUtils {
         return builder.sign(this.hmacKey);
     }
 
-    public Optional<Integer> verifyToken(String token) {
+    public Optional<Long> verifyToken(String token) {
         DecodedJWT verify;
         try {
             verify = JWT.require(this.hmacKey).build().verify(token);
@@ -37,6 +37,6 @@ public class JwtUtilsImpl implements JwtUtils {
             return Optional.empty();
         }
         Claim uid = verify.getClaim("uid");
-        return Optional.of(uid.asInt());
+        return Optional.of(uid.asLong());
     }
 }

@@ -8,11 +8,11 @@ import java.lang.annotation.Annotation;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-public class AuthorizationHandlerImpl implements AuthorizationHandler<Integer> {
+public class AuthorizationHandlerImpl implements AuthorizationHandler<Long> {
     private final JwtUtils jwtUtils;
 
     @Override
-    public Optional<Integer> auth(String token, Annotation ann) {
+    public Optional<Long> auth(String token, Annotation ann) {
         return jwtUtils.verifyToken(token);
     }
 }
