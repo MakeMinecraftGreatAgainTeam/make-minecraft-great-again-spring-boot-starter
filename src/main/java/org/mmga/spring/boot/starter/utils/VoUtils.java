@@ -1,6 +1,7 @@
 package org.mmga.spring.boot.starter.utils;
 
 import lombok.SneakyThrows;
+import org.mmga.spring.boot.starter.annotation.VoFieldMapper;
 import org.mmga.spring.boot.starter.annotation.VoIgnore;
 import org.springframework.stereotype.Component;
 
@@ -36,6 +37,11 @@ public class VoUtils {
                 if (declaredMethod.getAnnotation(VoIgnore.class) != null) continue;
                 String attrName = name.replaceFirst("set", "");
                 declaredMethod.setAccessible(true);
+                VoFieldMapper mapper = declaredMethod.getAnnotation(VoFieldMapper.class);
+                if (mapper != null) {
+                    setterMap.put(mapper.value(), declaredMethod);
+                    continue;
+                }
                 setterMap.put(attrName, declaredMethod);
             }
         }
@@ -43,6 +49,11 @@ public class VoUtils {
         for (Field declaredField : declaredFields) {
             if (declaredField.getAnnotation(VoIgnore.class) != null) continue;
             declaredField.setAccessible(true);
+            VoFieldMapper mapper = declaredField.getAnnotation(VoFieldMapper.class);
+            if (mapper != null) {
+                fieldMap.put(mapper.value(), declaredField);
+                continue;
+            }
             fieldMap.put(declaredField.getName(), declaredField);
         }
         Class<?> voClass = vo.getClass();
