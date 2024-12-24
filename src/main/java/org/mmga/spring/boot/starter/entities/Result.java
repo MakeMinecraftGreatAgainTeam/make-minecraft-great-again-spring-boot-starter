@@ -2,6 +2,7 @@ package org.mmga.spring.boot.starter.entities;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.annotation.JSONCompiled;
+import com.alibaba.fastjson2.annotation.JSONField;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
@@ -141,6 +142,7 @@ public class Result<T> {
         stream.write(JSON.toJSONString(this).getBytes(StandardCharsets.UTF_8));
     }
 
+    @JSONField(serialize = false, deserialize = false)
     public boolean isOK() {
         return 200 <= this.status && this.status < 300;
     }
