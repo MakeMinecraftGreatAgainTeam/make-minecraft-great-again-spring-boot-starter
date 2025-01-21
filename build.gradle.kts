@@ -7,7 +7,12 @@ plugins {
 
 group = "org.mmga"
 version = "0.0.5"
-
+tasks.compileJava {
+    options.encoding = "UTF-8"
+}
+tasks.javadoc {
+    options.encoding = "UTF-8"
+}
 tasks.register<Jar>("javadocJar") {
     archiveClassifier.set("javadoc")
     from(tasks.named("javadoc"))
