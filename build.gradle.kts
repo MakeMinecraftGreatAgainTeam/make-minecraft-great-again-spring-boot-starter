@@ -6,7 +6,16 @@ plugins {
 }
 
 group = "org.mmga"
-version = "0.0.5-SNAPSHOT"
+version = "0.0.5"
+
+tasks.register<Jar>("javadocJar") {
+    archiveClassifier.set("javadoc")
+    from(tasks.named("javadoc"))
+}
+tasks.register<Jar>("sourcesJar") {
+    archiveClassifier.set("sources")
+    from(sourceSets.main.get().allSource)
+}
 
 java {
     toolchain {
@@ -71,6 +80,9 @@ publishing {
             groupId = "org.mmga"
             artifactId = "make-minecraft-great-again-spring-boot-starter"
             version = version
+
+            artifact(tasks.named("javadocJar"))
+            artifact(tasks.named("sourcesJar"))
             pom {
                 name.set("MakeMinecraftGreatAgainSpringBootStarter")
                 description.set("A Spring Boot Starter for mmga team.")
