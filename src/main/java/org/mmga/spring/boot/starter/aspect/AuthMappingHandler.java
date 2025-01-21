@@ -6,9 +6,9 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.mmga.spring.boot.starter.componet.JwtUtils;
 import org.mmga.spring.boot.starter.entities.Result;
-import org.mmga.spring.boot.starter.exception.AuthorizationException;
+import org.mmga.spring.boot.starter.exception.ServerException;
 import org.mmga.spring.boot.starter.interfaces.IdHolder;
-import org.springframework.http.HttpStatus;
+import org.mmga.spring.boot.starter.properties.AuthorizationProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -19,6 +19,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @RequiredArgsConstructor
 public class AuthMappingHandler {
     private final JwtUtils jwtUtils;
+    private final AuthorizationProperties properties;
+
 
     public Long getUserIdFromResponse(Object response) {
         if (response instanceof Result<?> result) {
@@ -50,9 +52,10 @@ public class AuthMappingHandler {
                 if (returnValue instanceof Result<?> result) {
                     if (!result.isOK()) return;
                 }
-                throw new AuthorizationException(Result.failed(HttpStatus.INTERNAL_SERVER_ERROR, "登录失败，服务端未找到可用的用户id"));
+                throw new ServerException("登录失败，服务端未找到可用的用户id");
             }
-            response.setHeader("Add-Authorization", token);
+            String setAuthorizationHeader = properties.getSetAuthorizationHeader();
+            response.setHeader(setAuthorizationHeader, token);
         }
     }
 }

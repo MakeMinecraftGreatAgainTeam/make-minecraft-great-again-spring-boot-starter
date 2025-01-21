@@ -6,6 +6,10 @@ import lombok.Data;
 
 import java.util.List;
 
+/**
+ * 分页数据
+ * @param <T> 数据类型
+ */
 @Data
 @Schema(name = "分页数据")
 @AllArgsConstructor

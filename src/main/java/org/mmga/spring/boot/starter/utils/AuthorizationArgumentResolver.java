@@ -3,10 +3,8 @@ package org.mmga.spring.boot.starter.utils;
 import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import org.mmga.spring.boot.starter.componet.AuthorizationHandler;
-import org.mmga.spring.boot.starter.entities.Result;
 import org.mmga.spring.boot.starter.exception.AuthorizationException;
 import org.springframework.core.MethodParameter;
-import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -35,7 +33,7 @@ public class AuthorizationArgumentResolver implements HandlerMethodArgumentResol
         assert parameterAnnotation != null;
         Optional<?> auth = this.handler.auth(webRequest, parameterAnnotation);
         if (auth.isEmpty()) {
-            throw new AuthorizationException(Result.failed(HttpStatus.UNAUTHORIZED, "缺少token"));
+            throw new AuthorizationException("缺少token");
         }
         return auth.get();
     }

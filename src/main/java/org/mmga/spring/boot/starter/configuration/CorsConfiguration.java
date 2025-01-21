@@ -2,6 +2,7 @@ package org.mmga.spring.boot.starter.configuration;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.mmga.spring.boot.starter.properties.AuthorizationProperties;
 import org.mmga.spring.boot.starter.properties.Env;
 import org.mmga.spring.boot.starter.properties.MainProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -11,9 +12,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @RequiredArgsConstructor
-@EnableConfigurationProperties({MainProperties.class})
+@EnableConfigurationProperties({MainProperties.class, AuthorizationProperties.class})
 public class CorsConfiguration implements WebMvcConfigurer {
     private final MainProperties mainProperties;
+    private final AuthorizationProperties properties;
 
 
     @Override
@@ -21,7 +23,7 @@ public class CorsConfiguration implements WebMvcConfigurer {
         if (mainProperties.getEnv().equals(Env.DEV)) {
             registry.addMapping("/**") //允许所有路径进行CORS
                     .allowedHeaders("*")
-                    .exposedHeaders("Add-Authorization")
+                    .exposedHeaders(properties.getSetAuthorizationHeader())
                     .allowedMethods("*"); //允许所有请求方式
         }
     }

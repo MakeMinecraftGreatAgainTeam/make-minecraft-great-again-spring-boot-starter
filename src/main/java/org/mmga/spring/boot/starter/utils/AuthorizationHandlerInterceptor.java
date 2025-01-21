@@ -4,9 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.mmga.spring.boot.starter.componet.AuthorizationHandler;
-import org.mmga.spring.boot.starter.entities.Result;
 import org.mmga.spring.boot.starter.exception.AuthorizationException;
-import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
@@ -30,7 +28,7 @@ public class AuthorizationHandlerInterceptor implements HandlerInterceptor {
             Annotation annotation = method.getMethodAnnotation(authAnnotation);
             Optional<?> auth = this.handler.auth(request, annotation);
             if (auth.isEmpty()) {
-                throw new AuthorizationException(Result.failed(HttpStatus.UNAUTHORIZED, "缺少token"));
+                throw new AuthorizationException("缺少token");
             }
             return true;
         }
